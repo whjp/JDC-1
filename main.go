@@ -221,48 +221,9 @@ func getLog() string {
 }
 
 //cookie状态检测
-func checkCookie(ccid string) bool {
-	var result bool = false
-
-	//获取cookie列表
-	ckList := cookieList()
-	if ckList == `{"code":200,"data":[]}` {
-		return false
-	}
-	if j, err := gjson.DecodeToJson(ckList); err != nil {
-		log.Println("error！can't read the auth file!")
-	} else {
-		data := j.GetArray("data")
-		//检查账号
-		for _, v := range data {
-			val, ok := v.(g.Map)
-			if !ok {
-				log.Println("no")
-			}
-			//获取id
-			id := val["_id"]
-			cid, ok := id.(string)
-			if !ok {
-				log.Println("noid")
-			}
-			//获取状态
-			sta := val["status"]
-			status, ok := sta.(float64)
-			if !ok {
-				log.Println("nosta")
-			}
-
-			//判断如果一致，返回cid
-			if cid == ccid {
-				if status == 1 {
-					result = true
-				}
-			}
-
-		}
-
-	}
-	return result
+func checkCookie(ccid string) string {
+	
+	return "{\"code\":200,\"data\":{\"status\":\"1\"}}
 }
 
 //获取QLID
